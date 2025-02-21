@@ -1,6 +1,6 @@
 const Mock = require('mockjs')
 const { deepClone } = require('../utils')
-const { asyncRoutes, constantRoutes } = require('./routes.js')
+const { constantRoutes, asyncRoutes } = require('./routes.js')
 
 const routes = deepClone([...constantRoutes, ...asyncRoutes])
 
@@ -8,19 +8,19 @@ const roles = [
   {
     key: 'admin',
     name: 'admin',
-    description: 'Super Administrator. Have access to view all pages.',
+    description: '超级管理员。可以访问所有页面。',
     routes: routes
   },
   {
     key: 'editor',
     name: 'editor',
-    description: 'Normal Editor. Can see all pages except permission page',
-    routes: routes.filter(i => i.path !== '/permission')// just a mock
+    description: '普通编辑。可以访问除权限页面外的所有页面',
+    routes: routes.filter(i => i.path !== '/permission')
   },
   {
     key: 'visitor',
     name: 'visitor',
-    description: 'Just a visitor. Can only see the home page and the document page',
+    description: '访客。只能访问首页和文档页面',
     routes: [{
       path: '',
       redirect: 'dashboard',
@@ -36,7 +36,7 @@ const roles = [
 ]
 
 module.exports = [
-  // mock get all routes form server
+  // 模拟获取所有路由
   {
     url: '/vue-element-admin/routes',
     type: 'get',
@@ -48,7 +48,7 @@ module.exports = [
     }
   },
 
-  // mock get all roles form server
+  // 模拟获取所有角色
   {
     url: '/vue-element-admin/roles',
     type: 'get',
@@ -60,7 +60,7 @@ module.exports = [
     }
   },
 
-  // add role
+  // 添加角色
   {
     url: '/vue-element-admin/role',
     type: 'post',
@@ -72,7 +72,7 @@ module.exports = [
     }
   },
 
-  // update role
+  // 更新角色
   {
     url: '/vue-element-admin/role/[A-Za-z0-9]',
     type: 'put',
@@ -84,7 +84,7 @@ module.exports = [
     }
   },
 
-  // delete role
+  // 删除角色
   {
     url: '/vue-element-admin/role/[A-Za-z0-9]',
     type: 'delete',
