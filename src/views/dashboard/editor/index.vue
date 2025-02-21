@@ -1,74 +1,153 @@
 <template>
-  <div class="dashboard-editor-container">
-    <div class=" clearfix">
-      <pan-thumb :image="avatar" style="float: left">
-        Your roles:
-        <span v-for="item in roles" :key="item" class="pan-info-roles">{{ item }}</span>
-      </pan-thumb>
-      <github-corner style="position: absolute; top: 0px; border: 0; right: 0;" />
-      <div class="info-container">
-        <span class="display_name">{{ name }}</span>
-        <span style="font-size:20px;padding-top:20px;display:inline-block;">Editor's Dashboard</span>
-      </div>
-    </div>
-    <div>
-      <img :src="emptyGif" class="emptyGif">
-    </div>
+  <div class="dashboard-editor">
+    <el-row :gutter="20">
+      <!-- 快捷操作区 -->
+      <el-col :span="24">
+        <el-card>
+          <div slot="header">
+            <span>快捷操作</span>
+          </div>
+          <div class="quick-actions">
+            <el-button type="primary" icon="el-icon-document">
+              新建公告
+            </el-button>
+            <el-button type="success" icon="el-icon-picture">
+              生成海报
+            </el-button>
+            <el-button type="warning" icon="el-icon-notebook-1">
+              会议纪要
+            </el-button>
+            <el-button type="info" icon="el-icon-folder">
+              知识库
+            </el-button>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+
+    <el-row :gutter="20" style="margin-top: 20px;">
+      <!-- 我的内容 -->
+      <el-col :span="16">
+        <el-card>
+          <div slot="header">
+            <span>我的内容</span>
+          </div>
+          <el-tabs v-model="activeTab">
+            <el-tab-pane label="我创建的" name="created">
+              <el-table :data="myContent" style="width: 100%">
+                <el-table-column prop="date" label="日期" width="180" />
+                <el-table-column prop="type" label="类型" width="100" />
+                <el-table-column prop="title" label="标题" />
+                <el-table-column prop="status" label="状态" width="100">
+                  <template slot-scope="scope">
+                    <el-tag :type="getStatusType(scope.row.status)">
+                      {{ scope.row.status }}
+                    </el-tag>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-tab-pane>
+            <el-tab-pane label="待处理" name="pending">
+              <el-table :data="pendingContent" style="width: 100%">
+                <el-table-column prop="date" label="日期" width="180" />
+                <el-table-column prop="type" label="类型" width="100" />
+                <el-table-column prop="title" label="标题" />
+                <el-table-column prop="action" label="操作" width="100">
+                  <template>
+                    <el-button type="text">处理</el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-tab-pane>
+          </el-tabs>
+        </el-card>
+      </el-col>
+
+      <!-- 使用统计 -->
+      <el-col :span="8">
+        <el-card>
+          <div slot="header">
+            <span>使用统计</span>
+          </div>
+          <div class="statistics">
+            <div class="stat-item">
+              <div class="stat-title">本月已生成内容</div>
+              <div class="stat-number">56</div>
+            </div>
+            <el-divider />
+            <div class="stat-item">
+              <div class="stat-title">本月已处理图片</div>
+              <div class="stat-number">23</div>
+            </div>
+            <el-divider />
+            <div class="stat-item">
+              <div class="stat-title">知识库贡献</div>
+              <div class="stat-number">12</div>
+            </div>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import PanThumb from '@/components/PanThumb'
-import GithubCorner from '@/components/GithubCorner'
-
 export default {
-  name: 'DashboardEditor',
-  components: { PanThumb, GithubCorner },
+  name: 'EditorDashboard',
   data() {
     return {
-      emptyGif: 'https://wpimg.wallstcn.com/0e03b7da-db9e-4819-ba10-9016ddfdaed3'
+      activeTab: 'created',
+      myContent: [
+        { date: '2024-03-20 10:30', type: '公告', title: '小区停水通知', status: '已发布' },
+        { date: '2024-03-19 15:20', type: '海报', title: '清明节活动宣传', status: '审核中' },
+        { date: '2024-03-18 09:45', type: '纪要', title: '部门周会纪要', status: '草稿' }
+      ],
+      pendingContent: [
+        { date: '2024-03-20 11:00', type: '公告', title: '业主投诉处理', action: '待回复' },
+        { date: '2024-03-19 16:30', type: '海报', title: '修改宣传文案', action: '待修改' }
+      ]
     }
   },
-  computed: {
-    ...mapGetters([
-      'name',
-      'avatar',
-      'roles'
-    ])
+  methods: {
+    getStatusType(status) {
+      const statusMap = {
+        '已发布': 'success',
+        '审核中': 'warning',
+        '草稿': 'info'
+      }
+      return statusMap[status] || 'info'
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  .emptyGif {
-    display: block;
-    width: 45%;
-    margin: 0 auto;
+.dashboard-editor {
+  padding: 20px;
+
+  .quick-actions {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 10px;
   }
 
-  .dashboard-editor-container {
-    background-color: #e3e3e3;
-    min-height: 100vh;
-    padding: 50px 60px 0px;
-    .pan-info-roles {
-      font-size: 12px;
-      font-weight: 700;
-      color: #333;
-      display: block;
-    }
-    .info-container {
-      position: relative;
-      margin-left: 190px;
-      height: 150px;
-      line-height: 200px;
-      .display_name {
-        font-size: 48px;
-        line-height: 48px;
-        color: #212121;
-        position: absolute;
-        top: 25px;
+  .statistics {
+    .stat-item {
+      padding: 15px 0;
+      text-align: center;
+
+      .stat-title {
+        font-size: 14px;
+        color: #909399;
+        margin-bottom: 10px;
+      }
+
+      .stat-number {
+        font-size: 24px;
+        font-weight: bold;
+        color: #303133;
       }
     }
   }
+}
 </style>

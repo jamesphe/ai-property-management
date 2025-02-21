@@ -29,3 +29,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.dashboard-container {
+  padding: 20px;
+  background-color: #f0f2f5;
+  min-height: calc(100vh - 50px);
+}
+</style>
