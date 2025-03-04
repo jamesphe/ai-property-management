@@ -1,4 +1,3 @@
-
 const tokens = {
   admin: {
     token: 'admin-token'
@@ -12,13 +11,13 @@ const users = {
   'admin-token': {
     roles: ['admin'],
     introduction: 'I am a super administrator',
-    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    avatar: 'https://picsum.photos/100/100',
     name: 'Super Admin'
   },
   'editor-token': {
     roles: ['editor'],
     introduction: 'I am an editor',
-    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    avatar: 'https://picsum.photos/100/100?random=1',
     name: 'Normal Editor'
   }
 }

@@ -5,7 +5,6 @@ export default {
     Announcement: '日常公告生成',
     MeetingMinutes: '会议纪要生成',
     Promotion: '宣传文案与海报',
-    ImageProcessing: '图像处理',
     ImageGeneration: '图像生成',
     KnowledgeCenter: '知识中心',
     KnowledgeBase: '知识库管理',

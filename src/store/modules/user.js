@@ -1,11 +1,12 @@
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
+import defaultSettings from '@/settings'
 
 const state = {
   token: getToken(),
   name: '',
-  avatar: '',
+  avatar: defaultSettings.defaultAvatar,
   introduction: '',
   roles: []
 }
@@ -21,7 +22,7 @@ const mutations = {
     state.name = name
   },
   SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
+    state.avatar = avatar || defaultSettings.defaultAvatar
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles

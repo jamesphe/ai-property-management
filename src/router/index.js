@@ -110,12 +110,6 @@ export const asyncRoutes = [
         component: () => import('@/views/image/generation'),
         name: 'ImageGeneration',
         meta: { title: '图像生成', icon: 'el-icon-magic-stick' }
-      },
-      {
-        path: 'processing',
-        component: () => import('@/views/image/processing'),
-        name: 'ImageProcessing',
-        meta: { title: '图像处理', icon: 'el-icon-scissors' }
       }
     ]
   },
